@@ -1,0 +1,83 @@
+.admin {
+    &-nav {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+  
+      &-item {
+        width: 100%;
+        padding: 1rem .8rem !important;
+        border-left: 0px solid currentColor;
+        cursor: pointer;
+        transition: .3s;
+  
+        &:hover {
+          border-left-width: 6px;
+        }
+  
+        &::after {
+          display: none;
+        }
+      }
+    }
+  }
+
+.projects-iframe-conteiner {
+    position: relative;
+    height: 210px;
+
+    &::after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: '';
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+    }
+
+    & > iframe {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+// #1a73e8!important
+
+.panel {
+  &-left-admin {
+    width: 280px;
+    height: 100% !important;
+    background: linear-gradient(to bottom right, rgba(#e91e63, .6), rgba(#1a73e8, .6)), url(/img/bg.jpg);
+  }
+
+  &-right-admin {
+    width: calc(100% - 280px);
+    height: 100% !important;
+  }
+
+  @media screen and (max-width: 600px) {
+    
+    .panel-right-admin {
+      width: 100% !important;
+      transform: translateX(280px) !important;
+    }
+
+    &-open[data-usePanel=left] > .panel-right-admin {
+      transform: translateX(0) !important;
+    }
+  }
+}
+
+// for paginations
+
+
+.page-item {
+  background-color: #222;
+  color: #fff;
+  opacity: .8;
+
+  &.active {
+    opacity: 1;
+  }
+}

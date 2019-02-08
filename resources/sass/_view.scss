@@ -1,0 +1,118 @@
+// All Views That are possible for this editor
+
+
+.view {
+    
+    &-left {
+
+        & > #codeArea {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        & > #resultArea {
+            display: none !important;
+        }
+
+    }
+
+    &-right {
+        & > #codeArea {
+            display: none !important;
+        }
+
+        & > #resultArea {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    }
+
+    &-right-left {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+
+    &-top-bottom {
+        display: flex;
+        flex-direction: column;
+
+        & > #codeArea,
+        & > #resultArea {
+            width: 100% !important;
+        }
+
+        & > #codeArea {
+            height: 55%;
+        }
+
+        & > #resultArea {
+            height: 55%;
+        }
+
+    }
+
+    &-bottom-top {
+        display: flex;
+        flex-direction: column-reverse;
+
+        & > #codeArea,
+        & > #resultArea {
+            width: 100% !important;
+        }
+
+        & > #codeArea {
+            height: 55%;
+        }
+
+        & > #resultArea {
+            height: 55%;
+        }
+    }
+}
+
+
+.logo-view {
+
+    &s {
+        display: block;
+    }
+
+    width: 40px !important;
+    height: 30px !important;
+    border-radius: .25rem;
+    cursor: pointer;
+    float: left;
+    margin: 0.8rem;
+    opacity: 0.4;
+    transition: .5s;
+
+    &-active {
+        border: 3px solid #b4c1e8!important;
+        opacity: 1;
+    }
+
+    &-left {
+        background-color: #fff !important;
+    }
+
+    &-right {
+        background-color: rgb(233, 103, 27) !important;
+    }
+
+    &-left-right {
+        background: linear-gradient(to right, #fff 0, #fff 50%, rgb(233, 103, 27) 50%)
+    }
+
+    &-right-left {
+        background: linear-gradient(to left, #fff 0, #fff 50%, rgb(233, 103, 27) 50%)
+    }
+
+    &-top-bottom {
+        background: linear-gradient(to bottom, #fff 0, #fff 50%, rgb(233, 103, 27) 50%)
+    }
+
+    &-bottom-top {
+        background: linear-gradient(to top, #fff 0, #fff 50%, rgb(233, 103, 27) 50%)
+    }
+
+}

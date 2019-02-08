@@ -1,0 +1,75 @@
+// Media Queries Manager
+
+/*
+
+0      -  600px    Phone
+600px  -  900px    Tablet Portrait
+900px  -  1200px   Tablet Landscape
+1200px -  1800px   Normal Styles Goes Here
+1800px +           Big Desktop
+
+
+*/
+
+/*
+
+Breakpoints
+
+Small devices  - xs          -  480px   /  16px     - 30    em
+Mobiles        - sm          -  768px   /  16px     - 48    em
+Tablate P      - md          -  992px   /  16px     - 62    em
+Tablet  L      - l           -  1200px  /  16px     - 75    em
+Extra Large    - xl          -  1800px  /  16px     - 112.5 em
+
+*/
+
+
+$xs: 30em;
+$sm: 48em;
+$md: 62em;
+$lg: 75em;
+$xl: 112.5em;
+
+
+@mixin qm($breakpoint) {
+    @if $breakpoint==xs {
+        @media (max-width: $xs) {
+            @content
+        }
+
+        ;
+    }
+
+    @if $breakpoint==sm {
+        @media (max-width: $sm) {
+            @content
+        }
+
+        ;
+    }
+
+    @if $breakpoint==md {
+        @media (max-width: $md) {
+            @content
+        }
+
+        ;
+    }
+
+    @if $breakpoint==lg {
+        @media (max-width: $lg) {
+            @content
+        }
+
+        ;
+    }
+
+    @if $breakpoint==xl {
+        @media (min-width: $xl) {
+            @content
+        }
+
+        ;
+    }
+}
+
