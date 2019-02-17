@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     @include('comp.common')
-    @yield('seo');
+    @yield('seo')
 </head>
 <body>
     <div id="app">

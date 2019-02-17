@@ -5,7 +5,7 @@
 <script>
     import * as monacoCore from "monaco-editor";
     import * as axios from "axios";
-    import emmetHTML from "./../monaco-emmet.js";
+    import { emmetHTML, emmetCSS } from 'emmet-monaco-es'
 
     export default {
         props: ['ops'],
@@ -36,7 +36,11 @@
             this.$eBus.$on("changeOptions", this.changeOptions);
 
             if(this.ops.lang === 'html') {
-                emmetHTML(this.cEditor);
+                emmetHTML(this.cEditor, monacoCore);
+            }
+
+            if(this.ops.lang === 'css') {
+                emmetCSS(this.cEditor, monacoCore);
             }
         },
         methods: {

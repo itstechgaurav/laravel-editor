@@ -48,36 +48,41 @@
   &-left-admin {
     width: 280px;
     height: 100% !important;
-    background: linear-gradient(to bottom right, rgba(#e91e63, .6), rgba(#1a73e8, .6)), url(/img/bg.jpg);
+    transform: none !important;
+    background: linear-gradient(to bottom right, rgba(#e91e63, .6), rgba(#1a73e8, .6));
   }
 
   &-right-admin {
-    width: calc(100% - 280px);
+    width: calc(100%);
+    transform: translateX(280px);
+    background: #fcfcfc;
     height: 100% !important;
   }
 
-  @media screen and (max-width: 600px) {
-    
-    .panel-right-admin {
-      width: 100% !important;
-      transform: translateX(280px) !important;
-    }
-
-    &-open[data-usePanel=left] > .panel-right-admin {
-      transform: translateX(0) !important;
-    }
+  &-open[data-usePanel=left] > .panel-right-admin {
+    transform: translateX(0) !important;
   }
+
+  // @media screen and (max-width: 600px) {
+    
+  //   .panel-right-admin {
+  //     width: 100% !important;
+  //     transform: translateX(280px) !important;
+  //   }
+
+  //   &-open[data-usePanel=left] > .panel-right-admin {
+  //     transform: translateX(0) !important;
+  //   }
+  // }
 }
 
 // for paginations
 
 
 .page-item {
-  background-color: #222;
   color: #fff;
-  opacity: .8;
 
   &.active {
-    opacity: 1;
+    background-color: rgb(36, 105, 255);
   }
 }

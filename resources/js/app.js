@@ -18,6 +18,8 @@ import store from "./store";
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+
+
 Vue.component('editor', require('./components/editor.vue').default);
 
 /**
@@ -44,4 +46,8 @@ window.addMsg = function(type, msg) {
     `;
     $box.innerHTML = $box.innerHTML + alert;
     spyder.rerun();
+}
+
+if(document.getElementById("loading-screen")) {
+    document.getElementById("loading-screen").style.zIndex = "-1";
 }

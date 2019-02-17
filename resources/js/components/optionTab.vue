@@ -1,6 +1,13 @@
 <template>
     <div id="editor-options">
         <div class="w-10 mt-3 p-1">
+            <div class="box mb-3 v-center">
+                <span class="mute">Auto Save  </span>&nbsp;&nbsp;
+                <label class="button-toggle bg-white title-tip title-tip-bottom title-tip-light"  data-title="Run Code Live">
+                    <input type="checkbox" @click="autoSave()">
+                    <div class="button-toggle-inner"></div>
+                </label>
+            </div>
             <div class="box mb-2">
                 <div class="label d-b mute text-white">Select View</div>
                 <div class="logo-views c">
@@ -102,6 +109,9 @@ import axios from "axios";
             }
         },
         methods: {
+            autoSave() {
+                this.$store.state.autoSave = !this.$store.state.autoSave;
+            },
             getThemes() {
                 axios.get("/themes/theme-lists.json").then(res => {
                     Object.keys(res.data).forEach(function(it) {

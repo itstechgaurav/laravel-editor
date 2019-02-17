@@ -8,6 +8,8 @@ Vue.use(Vuex);
 let store = new Vuex.Store({
     state: {
         initial:  ``,
+        libs: [],
+        autoSave: false,
         all: {
             lib: [],
             fs: [],

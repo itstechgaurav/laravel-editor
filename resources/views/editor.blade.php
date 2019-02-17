@@ -8,8 +8,13 @@
     </head>
     <body>
         <div id="app">
-            <h1>{{$project->name}}</h1>
+            <h1 class="d-none">{{$project->name}}</h1>
             <editor></editor>
+            <div id="loading-screen">
+                <div class="code-loader">
+                    <div class="bouncing-ball ion ion-beer"></div>
+                </div>
+            </div>
         </div>
         <div class="alerts-container" id="alert-container-editor"></div>
     </body>

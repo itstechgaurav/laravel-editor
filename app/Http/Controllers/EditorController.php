@@ -50,6 +50,13 @@ class EditorController extends Controller
                     $proj->loged = true;
                     if($proj->username === $user->username) {
                         $proj->file;
+                        $proj->cUser = json_decode(json_encode(
+                            [
+                                'name' => $user->name,
+                                'username' => $user->username,
+                                'image' => $user->profile->image
+                            ]
+                        ));
                         $proj->own = true;
                         return $proj;
                     } else {
@@ -61,6 +68,13 @@ class EditorController extends Controller
             } else {
                 if($user = \Auth::user()) {
                     $proj->loged = true;
+                    $proj->cUser = json_decode(json_encode(
+                        [
+                            'name' => $user->name,
+                            'username' => $user->username,
+                            'image' => $user->profile->image
+                        ]
+                    ));
                     if($proj->username === $user->username) {
                         $proj->own = true;
                     } else {
@@ -138,7 +152,7 @@ class EditorController extends Controller
 
     public function createProjectFile($project_slug) {
         $file = new File();
-        $file->meta = file_get_contents(dirname(__DIR__) . '\Controllers\files\full.html');
+        $file->meta = file_get_contents(dirname(__DIR__) . '/Controllers/files/full.html');
         $file->project_slug = $project_slug;
         $file->save();
     }
@@ -157,9 +171,8 @@ class EditorController extends Controller
 
     public function fullView($project_name) {
         if($project = $this->load($project_name)) {
-            
-        $meta = json_decode($project->file->meta)->result;
-        return $meta;
+            $meta = json_decode($project->file->meta)->result;
+            return $meta;
         };
     }
 

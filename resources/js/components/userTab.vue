@@ -1,17 +1,19 @@
 <template>
-    <div id="user-tab" class="text-center">
+    <div id="user-tab" class="text-center bg-dark">
+        <div class="text-white-dark p-1 heading-ter d-b" style="background: #384148;">
+            Creator
+        </div>
         <div class="text-center my-2">
             <img :src="'/uploads/' + user.profile.image" class="user-image" alt="">
         </div>
         <h3 class="heading-ter text-prime">
-            <a :href="'/by/user/' + user.username" class="text-prime link link-white">{{user.name}}</a>
+            <a :href="'/by/user/' + user.username" class="text-prime" style="text-decoration: none;">{{user.name}}</a>
         </h3>
-        <p class="p-1 my-2 mute text-justify">
+        <p class="my-2 p-1 mute text-left">
             {{user.profile.meta}}
         </p>
-        <hr>
-        <div class="class mt-2">
-            <h3 class="heading-ter mb-2 w-10 text-left text-white mute">Tags</h3>
+        <div class="class mt-2" v-if="tags.length > 0">
+            <h4 class="heading-ter mb-2 w-10 text-left text-white mute">Tags</h4>
             <div class="class space-b d-f" style="flex-wrap: wrap;">
                 <a 
                     :href="'/by/tag/' + tag.name" 

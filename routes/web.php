@@ -48,6 +48,8 @@ Route::group(['prefix' => 'main', 'middleware' => 'verified'], function () {
     Route::get('/proj/all', "ProjectController@all")->name('proj-all');
     Route::get("/proj/create", "ProjectController@create")->name('proj-create');
     Route::post("/proj/create", "ProjectController@store");
+    Route::get("/proj/create/quick", "ProjectController@quick")->name('proj-create-quick');
+    Route::get("/proj/img/{project_slug}", "ProjectController@img")->name('proj-img');
     Route::get("/proj/edit/{project_slug}", "ProjectController@edit")->name('proj-edit');
     Route::post("/proj/edit/{project_slug}", "ProjectController@update");
     Route::get("/proj/del/{project_slug}", "ProjectController@confirm")->name('proj-del-confirm');

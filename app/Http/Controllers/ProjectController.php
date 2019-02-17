@@ -19,7 +19,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::with('file', 'tags')->where('username', '=', \Auth::user()->username)->orderBy('id', 'desc')->paginate(10);
+        $projects = Project::with('file', 'tags')->where('username', '=', \Auth::user()->username)->orderBy('id', 'desc')->paginate(6);
 
         return view('admin.projects.all')->with([
             'projects' => $projects
@@ -29,7 +29,7 @@ class ProjectController extends Controller
     public function all()
     {
         
-        $projects = Project::with('tags', 'file')->orderBy('id', 'desc')->paginate(10);
+        $projects = Project::with('tags', 'file')->orderBy('id', 'desc')->paginate(6);
 
         return view('admin.projects.all')->with([
             'projects' => $projects
@@ -72,9 +72,27 @@ class ProjectController extends Controller
         return redirect()->route('proj');
     }
 
+    public function quick()
+    {
+        //
+        // return $request;
+        $project = new Project();
+        $project->username = \Auth::user()->username;
+        $project->name = "Quick Project";
+        $project->slug = str_slug($project->name);
+        $project->meta = "A Simple Quick Project";
+        $project->is_private = 0;
+        $project->save();
+        $project->slug = str_slug($project->name . " - " . $project->id);
+        $project->save();
+        Session::flash("prime", "Project Created");
+        $this->createProjectFile($project->slug);
+        return redirect()->route('proj');
+    }
+
     public function createProjectFile($project_slug) {
         $file = new File();
-        $file->meta = file_get_contents(dirname(__DIR__) . '\Controllers\files\full.html');
+        $file->meta = file_get_contents(dirname(__DIR__) . '/Controllers/files/full.html');
         $file->project_slug = $project_slug;
         $file->save();
     }
@@ -149,10 +167,16 @@ class ProjectController extends Controller
                 $proj->delete();
                 return redirect()->route('proj');
             } else {
+                
                 return redirect()->back();
             }
         } else {
+            Session::flash("danger", "type confirm");
             return redirect()->back();
         }
+    }
+
+    public function img($project_slug) {
+        
     }
 }

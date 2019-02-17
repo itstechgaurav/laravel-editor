@@ -5,7 +5,7 @@
 </head>
 <body class="over">
     <div id="app">
-        <div class="panel" data-usePanel="left" id="mainAdminPanel" style="height: 100vh;">
+        <div class="panel panel-open" data-usePanel="left" id="mainAdminPanel" style="height: 100vh;">
             <div class="panel-left panel-left-admin d-f dir-col">
                 @include('admin.comp.nav')
             </div>

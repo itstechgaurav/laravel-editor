@@ -39,7 +39,8 @@
     width: 210px;
     height: 100% !important;
     overflow: hidden !important;
-    background-color: rgba($thisDarkColor,.9) !important;
+    background-color: $thisDarkColor !important;
+    border-left: 2px solid #fff3;
   }
 
   &-right-fs {
@@ -214,4 +215,118 @@
       background-color: rgba(#fff, .4);
     }
   }
+}
+
+
+
+
+#loading-screen {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: rgb(14, 20, 20);
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+}
+
+.code-loader {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-top-left-radius: .3rem;
+  border-top-right-radius: .3rem;
+  animation: loading-code 1.2s infinite linear;
+}
+
+.code-loader::after {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: rgb(0, 115, 255);
+  border-bottom-left-radius: .3rem;
+  border-bottom-right-radius: .3rem;
+  content: '';
+  animation: loading-bar 3s linear;
+
+}
+
+.code-loader::before {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: #fcfcfc;
+  border-bottom-left-radius: .3rem;
+  border-bottom-right-radius: .3rem;
+  content: '';
+
+}
+
+.bouncing-ball {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: rgb(84, 187, 187);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+  color: rgb(76, 71, 71);
+  animation: loading 2s infinite ease-in-out;
+}
+
+@keyframes loading {
+  0% {
+      width: 75px;
+      height: 75px;
+      transform: translate(-50%, -50%);
+  }
+
+  50% {
+      width: 60px;
+      height: 60px;
+      transform: translate(-50%, -50%);
+  }
+
+  100% {
+      width: 75px;
+      height: 75px;
+      transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes loading-code {
+  0%, 100% {
+      transform: translate(-50%, -50%);
+  }
+
+  50% {
+      transform: translate(-50%, -40%);
+  }
+}
+
+@keyframes loading-bar {
+  0% {
+      width: 0;
+  }
+
+  100% {
+      width: 100%;
+  }
+}
+
+.hide-scroll::-webkit-scrollbar {
+  width: 0px;
 }

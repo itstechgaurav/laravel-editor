@@ -1,17 +1,10 @@
 <template>
     <div class="w-10 main-editor-page" v-if="config.isReady">
-        <div id="main-nav" class="nav nav-dark">
+        <div id="main-nav" class="nav nav-dark nav-corner">
             <div class="nav-logo">
                 <img src="https://asst.ml/favicon.svg" width="40" alt="">
             </div>
             <div class="nav-body ml-3">
-                <div class="nav-item v-center">
-                    <span class="">Live  </span>&nbsp;&nbsp;
-                    <label class="button-toggle bg-white title-tip title-tip-bottom title-tip-light"  data-title="Run Code Live">
-                        <input type="checkbox" v-model="config.isLive">
-                        <div class="button-toggle-inner"></div>
-                    </label>
-                </div>
                 <div class="nav-item ml-2" v-if="loged">
                     <div class="badge badge-prime badge-s ripple" @click="like()">
                         <i :class="['ion ion-heart pointer', liked ? 'text-sec' : '']" style="font-size: 1.8rem" ></i>
@@ -19,6 +12,31 @@
                             {{likedBy}}
                         </span>
                     </div>
+                </div>
+                <div class="nav-item v-center">
+                    <span class="">Live  </span>&nbsp;&nbsp;
+                    <label class="button-toggle bg-white title-tip title-tip-bottom title-tip-light"  data-title="Run Code Live">
+                        <input type="checkbox" v-model="config.isLive">
+                        <div class="button-toggle-inner"></div>
+                    </label>
+                </div>
+                <div class="nav-item ml-1" v-if="loged">
+                    <div class="dropdown dropdown-dark dropdown-icon-hide p-0 m-0">
+                        <div class="dropdown-head p-0" style="padding: 0 !important;">
+                            <img :src="`/uploads/${data.cUser.image}`" width="30" height="30" class="rad-c" alt="">
+                        </div>
+                        <div class="dropdown-body hide-scroll" style="right: 0;">
+                            <div class="dropdown-item">
+                                <a href="/" class="link link-white">Home Page</a>
+                            </div>
+                            <div class="dropdown-item">
+                                <a href="/main/proj" class="link link-white">Projects</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-item v-center" v-else>
+                    <a href="/" class="link link-dark text-prime">Home</a>
                 </div>
             </div>
         </div>
@@ -32,13 +50,16 @@
                         <div data-title="Settings" :class="['left-window-item title-tip title-tip-right title-tip-light' , {'left-window-item-active' : (config.window === 'window-settings')}]" @click="chnageWindow('window-settings')">
                             <i class="ion ion-ios-gear-outline"></i>
                         </div>
+                        <div data-title="Libraries" :class="['left-window-item title-tip title-tip-right title-tip-light' , {'left-window-item-active' : (config.window === 'window-libs')}]" @click="chnageWindow('window-libs')">
+                            <i class="ion ion-plus-round"></i>
+                        </div>
                         <div data-title="Run Code" class="left-window-item title-tip title-tip-right title-tip-light" @click="runCode()">
                             <i class="ion ion-play"></i>
                         </div>
                         <div data-title="Save Code" class="left-window-item title-tip title-tip-right title-tip-light" @click="upload()"  v-if="data.own">
                             <i class="ion ion-paper-airplane"></i>
                         </div>
-                        <div data-title="Fork This Repo" class="left-window-item title-tip title-tip-right title-tip-light" @click="fork()" v-if="!data.own && loged">
+                        <div data-title="Clone This" class="left-window-item title-tip title-tip-right title-tip-light" @click="fork()" v-if="!data.own && loged">
                             <i class="ion ion-fork-repo"></i>
                         </div>
                         <div data-title="Project Details" :class="['left-window-item title-tip title-tip-right title-tip-light' , {'left-window-item-active' : (config.window === 'window-user')}]" @click="chnageWindow('window-user')">
@@ -49,6 +70,9 @@
             </div>
             <div class="mainPanel-right">
                 
+
+
+
         <div :class="['panel', {'panel-open' : config.codePanelOpen}]" data-usePanel="left" id="codePanel">
 
             <div class="panel-left panel-left-fs d-f space-b dir-col">
@@ -87,8 +111,9 @@
                     <app-browser></app-browser>
                 </div>
             </div>
+            <libs-tab v-show="config.window === 'window-libs'"></libs-tab>
         </div>
-            </div>
+        </div>
         </div>
     </div>
 </template>
@@ -98,6 +123,7 @@
     import browser from "./browser";
     import optionTab from "./optionTab";
     import userTab from "./userTab";
+    import libsTab from "./libs";
     import axios from "axios";
 
     export default {
@@ -117,7 +143,7 @@
                     isLive: false,
                     isReady: false,
                     showOptions: false,
-                    window: 'no-window',
+                    window: 'no-window', // no-window
                     codePanelOpen: true
                 },
                 loged: false,
@@ -188,6 +214,9 @@
                     if(this.config.isLive) {
                         this.runCode();
                     }
+                    if(this.$store.state.autoSave) {
+                        this.$eBus.$emit("autoSave", this.fs);
+                    }
                 }.bind(this));
             },
             renderFs() {
@@ -213,12 +242,17 @@
                     this.loged = data.loged;
                     this.user = data.user;
                     this.tags = data.tags;
-                    this.$store.state.allowSave = (data.own && !this.demo) ;
+                    this.$store.state.allowSave = (data.own && !this.demo);
                     let meta = data.file.meta;
                     this.$store.state.initial = meta;
                     meta = JSON.parse(meta);
                     this.$store.state.all = meta;
                     this.fs = meta.fs;
+                    if(meta.lib) {
+                        this.$store.state.all.lib = meta.lib;
+                    } else {
+                        this.$store.state.all.lib = [];
+                    }
                     this.result = meta.result;
                     this.editor = meta.editor;
                     this.activeView = meta.activeView;
@@ -232,7 +266,8 @@
             monacoEditor: monaco,
             appBrowser: browser,
             optionTab,
-            userTab
+            userTab,
+            libsTab
         }
     }
 </script>
