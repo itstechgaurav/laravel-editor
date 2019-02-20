@@ -50,6 +50,9 @@
                         <div data-title="Settings" :class="['left-window-item title-tip title-tip-right title-tip-light' , {'left-window-item-active' : (config.window === 'window-settings')}]" @click="chnageWindow('window-settings')">
                             <i class="ion ion-ios-gear-outline"></i>
                         </div>
+                        <div data-title="Assets" :class="['left-window-item title-tip title-tip-right title-tip-light' , {'left-window-item-active' : (config.window === 'window-assets')}]" @click="chnageWindow('window-assets')">
+                            <i class="ion ion-wineglass"></i>
+                        </div>
                         <div data-title="Libraries" :class="['left-window-item title-tip title-tip-right title-tip-light' , {'left-window-item-active' : (config.window === 'window-libs')}]" @click="chnageWindow('window-libs')">
                             <i class="ion ion-plus-round"></i>
                         </div>
@@ -112,6 +115,7 @@
                 </div>
             </div>
             <libs-tab v-show="config.window === 'window-libs'"></libs-tab>
+            <assets-tab :assets="data.assets" v-show="config.window === 'window-assets'"></assets-tab>
         </div>
         </div>
         </div>
@@ -124,6 +128,7 @@
     import optionTab from "./optionTab";
     import userTab from "./userTab";
     import libsTab from "./libs";
+    import assetsTab from "./asst";
     import axios from "axios";
 
     export default {
@@ -267,7 +272,8 @@
             appBrowser: browser,
             optionTab,
             userTab,
-            libsTab
+            libsTab,
+            assetsTab
         }
     }
 </script>

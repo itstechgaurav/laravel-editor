@@ -40,6 +40,16 @@
                     it.value = it.getAttribute('false-value') ? it.getAttribute('false-value') : false;
                 }
             }
+
+            let copies = document.querySelectorAll(".copy");
+            if(copies.length) {
+                copies.forEach(function(it) {
+                    it.addEventListener("click", function(e) {
+                        it.previousElementSibling.select();
+                        document.execCommand("copy");
+                    })
+                })
+            }
         })
     </script>
 </body>

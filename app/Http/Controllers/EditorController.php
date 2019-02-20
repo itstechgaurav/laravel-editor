@@ -7,6 +7,7 @@ use App\File;
 use App\Project;
 use App\User;
 use App\Like;
+use App\Asset;
 use function GuzzleHttp\json_encode;
 
 
@@ -35,7 +36,7 @@ class EditorController extends Controller
 
     public function load($project_name) {
         
-        if($proj = Project::with(['likes', 'liked' => function($query) {
+        if($proj = Project::with(['assets', 'likes', 'liked' => function($query) {
             if($usr = \Auth::user()) {
                 $query->where('user_id', '=', $usr->id)->first();
             }
@@ -123,10 +124,9 @@ class EditorController extends Controller
         if($project_name === "demo-project") {
             response('Success !!!', 200);
         }
-        if($proj = Project::with('file')->where('slug', '=', $project_name)->first()) {
+        if($proj = Project::with(['assets', 'file'])->where('slug', '=', $project_name)->first()) {
             if($user = \Auth::user()) {
                 if($user->username !== $proj->username) {
-
                     $nProj = new Project();
                     $nProj->name = $proj->name;
                     $nProj->username = $user->username;
@@ -137,6 +137,18 @@ class EditorController extends Controller
                     $nProj->save();
                     $nProj->slug = str_slug($nProj->name . " " . $nProj->id, "-");
                     $nProj->save();
+
+
+                    foreach($proj->assets as $oAsset) {
+                        $asst = new Asset();
+                        $asst->user_id = \Auth::user()->id;
+                        $asst->project_slug = $nProj->slug;
+                        $asst->name = $oAsset->name;
+                        $asst->url = $oAsset->url;
+                        $asst->save();
+                    }
+
+
                     $this->createProjectFile($nProj->slug);
                     return response(route('editor-boot', ['project-name' => $nProj->slug]), 200);
                 } else {

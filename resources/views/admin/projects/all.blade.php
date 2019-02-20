@@ -30,7 +30,13 @@
                         <div class="col-2 mb-0">
                             <div class="dropdown-white-dark dropdown dropdown-icon-hide">
                                 <div class="dropdown-head ion ion-ios-arrow-down"></div>
-                                <div class="dropdown-body" style="right: 0;max-height: auto !important;overflow: hidden !important;">   
+                                <div class="dropdown-body" style="top: 100%;right: 0;max-height: auto !important;overflow: hidden !important;">   
+                                    <a href="{{route('assets', ['project_slug' => $project->slug])}}" class="dropdown-item v-center text-dark" style="text-decoration: none;">
+                                        <i class="ion ion-wineglass btn  btn-prime btn-s"></i>
+                                        <span class="mx-2">
+                                            Assets
+                                        </span>
+                                    </a>
                                     <a href="{{route('editor-boot', ['project_name' => $project->slug])}}" class="dropdown-item v-center text-dark" style="text-decoration: none;">
                                         <i class="ion ion-code btn  btn-dark btn-s"></i>
                                         <span class="mx-2">

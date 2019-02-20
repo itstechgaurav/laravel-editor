@@ -86,3 +86,7 @@
     background-color: rgb(36, 105, 255);
   }
 }
+
+.copy:active:before {
+  content: 'Copied' !important;
+}

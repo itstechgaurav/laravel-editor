@@ -11,6 +11,10 @@ class project extends Model
         return $this->hasOne('App\file', 'project_slug', 'slug');
     }
 
+    public function assets() {
+        return $this->hasMany('App\Asset', 'project_slug', 'slug');
+    }
+
     public function user() {
         return $this->hasOne('App\User', 'username', 'username');
     }
