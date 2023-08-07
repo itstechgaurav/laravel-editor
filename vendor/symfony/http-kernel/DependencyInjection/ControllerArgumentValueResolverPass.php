@@ -34,6 +34,10 @@ class ControllerArgumentValueResolverPass implements CompilerPassInterface
 
     public function __construct(string $argumentResolverService = 'argument_resolver', string $argumentValueResolverTag = 'controller.argument_value_resolver', string $traceableResolverStopwatch = 'debug.stopwatch')
     {
+        if (0 < \func_num_args()) {
+            trigger_deprecation('symfony/http-kernel', '5.3', 'Configuring "%s" is deprecated.', __CLASS__);
+        }
+
         $this->argumentResolverService = $argumentResolverService;
         $this->argumentValueResolverTag = $argumentValueResolverTag;
         $this->traceableResolverStopwatch = $traceableResolverStopwatch;
@@ -52,7 +56,7 @@ class ControllerArgumentValueResolverPass implements CompilerPassInterface
                 $id = (string) $resolverReference;
                 $container->register("debug.$id", TraceableValueResolver::class)
                     ->setDecoratedService($id)
-                    ->setArguments(array(new Reference("debug.$id.inner"), new Reference($this->traceableResolverStopwatch)));
+                    ->setArguments([new Reference("debug.$id.inner"), new Reference($this->traceableResolverStopwatch)]);
             }
         }
 

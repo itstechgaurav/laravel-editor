@@ -16,7 +16,7 @@ allow us to inspect these calls after the fact.
 
 When creating a test double object, we can pass in an identifier as a name for
 our test double. If we pass it no identifier, the test double name will be
-unknown. Furthermore, the identifier must not be a class name. It is a
+unknown. Furthermore, the identifier does not have to be a class name. It is a
 good practice, and our recommendation, to always name the test doubles with the
 same name as the underlying class we are creating test doubles for.
 
@@ -240,6 +240,22 @@ work.
     $foo->shouldReceive('bar')->andReturn(999);
     $foo->bar(); // int(456)
 
+It's also possible to specify explicitly which methods to run directly using
+the `!method` syntax:
+
+.. code-block:: php
+
+    class Foo {
+        function foo() { return 123; }
+        function bar() { return $this->foo(); }
+    }
+
+    $foo = mock("Foo[!foo]");
+
+    $foo->foo(); // int(123)
+
+    $foo->bar(); // error, no expectation set
+
 .. note::
 
     Even though we support generated partial test doubles, we do not recommend
@@ -403,7 +419,7 @@ additional modifier:
     \Mockery::mock('MyClass')->shouldIgnoreMissing()->asUndefined();
 
 The returned object is nothing more than a placeholder so if, by some act of
-fate, it's erroneously used somewhere it shouldn't it will likely not pass a
+fate, it's erroneously used somewhere it shouldn't, it will likely not pass a
 logic check.
 
 We have encountered the ``makePartial()`` method before, as it is the method we

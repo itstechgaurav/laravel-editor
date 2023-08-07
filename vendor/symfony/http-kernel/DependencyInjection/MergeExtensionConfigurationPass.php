@@ -23,6 +23,9 @@ class MergeExtensionConfigurationPass extends BaseMergeExtensionConfigurationPas
 {
     private $extensions;
 
+    /**
+     * @param string[] $extensions
+     */
     public function __construct(array $extensions)
     {
         $this->extensions = $extensions;
@@ -32,7 +35,7 @@ class MergeExtensionConfigurationPass extends BaseMergeExtensionConfigurationPas
     {
         foreach ($this->extensions as $extension) {
             if (!\count($container->getExtensionConfig($extension))) {
-                $container->loadFromExtension($extension, array());
+                $container->loadFromExtension($extension, []);
             }
         }
 

@@ -31,19 +31,19 @@
                             <div class="dropdown-white-dark dropdown dropdown-icon-hide">
                                 <div class="dropdown-head ion ion-ios-arrow-down"></div>
                                 <div class="dropdown-body" style="top: 100%;right: 0;max-height: auto !important;overflow: hidden !important;">   
-                                    <a href="{{route('assets', ['project_slug' => $project->slug])}}" class="dropdown-item v-center text-dark" style="text-decoration: none;">
+                                    <!-- <a href="{{route('assets', ['project_slug' => $project->slug])}}" class="dropdown-item v-center text-dark" style="text-decoration: none;">
                                         <i class="ion ion-wineglass btn  btn-prime btn-s"></i>
                                         <span class="mx-2">
                                             Assets
                                         </span>
-                                    </a>
+                                    </a>  -->
                                     <a href="{{route('editor-boot', ['project_name' => $project->slug])}}" class="dropdown-item v-center text-dark" style="text-decoration: none;">
                                         <i class="ion ion-code btn  btn-dark btn-s"></i>
                                         <span class="mx-2">
                                             Launch Editor
                                         </span>
                                     </a>
-                                    <a href="{{route('proj-edit', ['project_name' => $project->slug])}}" class="dropdown-item v-center text-dark" style="text-decoration: none;">
+                                    <a href="{{route('proj-edit', ['project_slug' => $project->slug])}}" class="dropdown-item v-center text-dark" style="text-decoration: none;">
                                         <i class="ion ion-edit btn btn-sec btn-s"></i>
                                         <span class="mx-2">
                                             Edit Details
@@ -55,7 +55,7 @@
                                             Share Link
                                         </span>
                                     </a>
-                                    <a href="{{route('proj-del-confirm', ['project_name' => $project->slug])}}" class="dropdown-item v-center text-dark" style="text-decoration: none;">
+                                    <a href="{{route('proj-del-confirm', ['project_slug' => $project->slug])}}" class="dropdown-item v-center text-dark" style="text-decoration: none;">
                                         <i class="ion ion-trash-a btn btn-danger btn-s"></i>
                                         <span class="mx-2">
                                             Delete Project

@@ -30,27 +30,27 @@ use Symfony\Component\CssSelector\Parser\ParserInterface;
  */
 class Translator implements TranslatorInterface
 {
-    private $mainParser;
+    private ParserInterface $mainParser;
 
     /**
      * @var ParserInterface[]
      */
-    private $shortcutParsers = array();
+    private array $shortcutParsers = [];
 
     /**
      * @var Extension\ExtensionInterface[]
      */
-    private $extensions = array();
+    private array $extensions = [];
 
-    private $nodeTranslators = array();
-    private $combinationTranslators = array();
-    private $functionTranslators = array();
-    private $pseudoClassTranslators = array();
-    private $attributeMatchingTranslators = array();
+    private array $nodeTranslators = [];
+    private array $combinationTranslators = [];
+    private array $functionTranslators = [];
+    private array $pseudoClassTranslators = [];
+    private array $attributeMatchingTranslators = [];
 
     public function __construct(ParserInterface $parser = null)
     {
-        $this->mainParser = $parser ?: new Parser();
+        $this->mainParser = $parser ?? new Parser();
 
         $this
             ->registerExtension(new Extension\NodeExtension())
@@ -63,16 +63,16 @@ class Translator implements TranslatorInterface
 
     public static function getXpathLiteral(string $element): string
     {
-        if (false === strpos($element, "'")) {
+        if (!str_contains($element, "'")) {
             return "'".$element."'";
         }
 
-        if (false === strpos($element, '"')) {
+        if (!str_contains($element, '"')) {
             return '"'.$element.'"';
         }
 
         $string = $element;
-        $parts = array();
+        $parts = [];
         while (true) {
             if (false !== $pos = strpos($string, "'")) {
                 $parts[] = sprintf("'%s'", substr($string, 0, $pos));
@@ -87,9 +87,6 @@ class Translator implements TranslatorInterface
         return sprintf('concat(%s)', implode(', ', $parts));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function cssToXPath(string $cssExpr, string $prefix = 'descendant-or-self::'): string
     {
         $selectors = $this->parseSelectors($cssExpr);
@@ -106,15 +103,15 @@ class Translator implements TranslatorInterface
         return implode(' | ', $selectors);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function selectorToXPath(SelectorNode $selector, string $prefix = 'descendant-or-self::'): string
     {
         return ($prefix ?: '').$this->nodeToXPath($selector);
     }
 
-    public function registerExtension(Extension\ExtensionInterface $extension): self
+    /**
+     * @return $this
+     */
+    public function registerExtension(Extension\ExtensionInterface $extension): static
     {
         $this->extensions[$extension->getName()] = $extension;
 
@@ -139,7 +136,10 @@ class Translator implements TranslatorInterface
         return $this->extensions[$name];
     }
 
-    public function registerParserShortcut(ParserInterface $shortcut): self
+    /**
+     * @return $this
+     */
+    public function registerParserShortcut(ParserInterface $shortcut): static
     {
         $this->shortcutParsers[] = $shortcut;
 
@@ -197,7 +197,7 @@ class Translator implements TranslatorInterface
     /**
      * @throws ExpressionErrorException
      */
-    public function addAttributeMatching(XPathExpr $xpath, string $operator, string $attribute, $value): XPathExpr
+    public function addAttributeMatching(XPathExpr $xpath, string $operator, string $attribute, ?string $value): XPathExpr
     {
         if (!isset($this->attributeMatchingTranslators[$operator])) {
             throw new ExpressionErrorException(sprintf('Attribute matcher operator "%s" not supported.', $operator));
@@ -209,12 +209,12 @@ class Translator implements TranslatorInterface
     /**
      * @return SelectorNode[]
      */
-    private function parseSelectors(string $css)
+    private function parseSelectors(string $css): array
     {
         foreach ($this->shortcutParsers as $shortcut) {
             $tokens = $shortcut->parse($css);
 
-            if (!empty($tokens)) {
+            if ($tokens) {
                 return $tokens;
             }
         }
